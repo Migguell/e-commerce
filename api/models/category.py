@@ -1,6 +1,6 @@
 from datetime import datetime
-from api.database import db
-from api.utils.validators import validate_string_length
+from database import db
+from utils.validators import validate_string_length
 
 class Category(db.Model):
     """Category model for product categorization."""

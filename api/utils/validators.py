@@ -3,6 +3,36 @@
 import re
 from decimal import Decimal, InvalidOperation
 from .exceptions import ValidationError
+from .responses import error_response
+
+def validate_required_fields(data, required_fields):
+    """Validate that all required fields are present in the data.
+    
+    Args:
+        data (dict): Data to validate
+        required_fields (list): List of required field names
+    
+    Returns:
+        None if validation passes, error_response if validation fails
+    """
+    if not isinstance(data, dict):
+        return error_response(
+            message="Request body must contain JSON data",
+            status_code=400
+        )
+    
+    missing_fields = []
+    for field in required_fields:
+        if field not in data or data[field] is None:
+            missing_fields.append(field)
+    
+    if missing_fields:
+        return error_response(
+            message=f"Missing required fields: {', '.join(missing_fields)}",
+            status_code=400
+        )
+    
+    return None
 
 def validate_product_data(data, partial=False):
     """Validate product data for create/update operations.
@@ -281,3 +311,52 @@ def validate_pagination_params(page, per_page, max_per_page=100):
         raise ValidationError(f"Per page cannot exceed {max_per_page}")
     
     return page, per_page
+
+def validate_string_length(value, field_name, min_length=1, max_length=255):
+    """Validate string length.
+    
+    Args:
+        value (str): String value to validate
+        field_name (str): Name of the field being validated
+        min_length (int): Minimum allowed length
+        max_length (int): Maximum allowed length
+    
+    Raises:
+        ValidationError: If validation fails
+    """
+    if not isinstance(value, str):
+        raise ValidationError(f"{field_name} must be a string")
+    
+    if len(value) < min_length:
+        raise ValidationError(f"{field_name} must be at least {min_length} characters long")
+    
+    if len(value) > max_length:
+        raise ValidationError(f"{field_name} cannot exceed {max_length} characters")
+
+def validate_positive_number(value, field_name):
+    """Validate that a value is a positive number.
+    
+    Args:
+        value: Value to validate
+        field_name (str): Name of the field being validated
+    
+    Returns:
+        Decimal: Validated decimal value
+    
+    Raises:
+        ValidationError: If validation fails
+    """
+    try:
+        # Convert to Decimal for precise validation
+        if isinstance(value, str):
+            decimal_value = Decimal(value)
+        else:
+            decimal_value = Decimal(str(value))
+        
+        if decimal_value <= 0:
+            raise ValidationError(f"{field_name} must be a positive number")
+        
+        return decimal_value
+        
+    except (InvalidOperation, ValueError, TypeError):
+        raise ValidationError(f"{field_name} must be a valid number")

@@ -1,7 +1,7 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from api.models.cart import Cart, CartItem
-from api.models.product import Product
-from api.database import db
+from models.product import Product
+from database import db
 from utils.responses import success_response, error_response
 from utils.validators import validate_cart_item_data
 from utils.exceptions import ValidationError, NotFoundError

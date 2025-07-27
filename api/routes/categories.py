@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
-from api.models.category import Category
-from api.models.product import Product
-from api.database import db
+from models.category import Category
+from models.product import Product
+from database import db
 from utils.responses import success_response, error_response
 from utils.validators import validate_category_data
 from utils.exceptions import ValidationError, NotFoundError

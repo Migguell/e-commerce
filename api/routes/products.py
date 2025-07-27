@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
 from sqlalchemy import or_
-from api.models.product import Product
-from api.models.category import Category
-from api.database import db
+from models.product import Product
+from models.category import Category
+from database import db
 from utils.responses import success_response, error_response
 from utils.validators import validate_product_data
 from utils.exceptions import ValidationError, NotFoundError

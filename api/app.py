@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_session import Session
+from flask_migrate import Migrate
 from config import Config
 from database import db
 
@@ -12,6 +13,7 @@ def create_app(config_class=Config):
     
     # Initialize extensions
     db.init_app(app)
+    migrate = Migrate(app, db)
     CORS(app, origins=app.config['CORS_ORIGINS'], supports_credentials=True)
     
     # Configure Flask-Session
@@ -34,12 +36,16 @@ def create_app(config_class=Config):
     from routes.products import products_bp
     from routes.cart import cart_bp
     from routes.categories import categories_bp
+    from routes.order_statuses import order_statuses_bp
+    from routes.orders import orders_bp
     
     app.register_blueprint(auth_bp)
     app.register_blueprint(users_bp)
     app.register_blueprint(products_bp, url_prefix='/api')
     app.register_blueprint(cart_bp, url_prefix='/api')
     app.register_blueprint(categories_bp, url_prefix='/api')
+    app.register_blueprint(order_statuses_bp)
+    app.register_blueprint(orders_bp, url_prefix='/api')
     
     # Health check endpoint
     @app.route('/health')

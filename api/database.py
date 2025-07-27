@@ -26,11 +26,14 @@ def after_cursor_execute(conn, cursor, statement, parameters, context, executema
 def init_database(app):
     """Initialize database with application context."""
     with app.app_context():
-        # Import all models to ensure they are registered
+        # Import models to ensure tables are created
         from api.models.category import Category
         from api.models.product import Product
-        from api.models.cart import CartItem
+        from api.models.cart import Cart, CartItem
         from api.models.user import User
+        from api.models.order_status import OrderStatus
+        from api.models.order import Order
+        from api.models.order_product import OrderProduct
         
         # Create all tables
         db.create_all()

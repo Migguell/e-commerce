@@ -1,7 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
-from api.database import db
-from api.utils.validators import validate_string_length, validate_positive_number
+from database import db
+from utils.validators import validate_string_length, validate_positive_number
 
 class Product(db.Model):
     """Product model for e-commerce catalog."""

@@ -6,6 +6,7 @@ This package contains all Flask blueprints for API endpoints:
 - products: Product catalog and search endpoints
 - cart: Shopping cart management endpoints
 - categories: Product category endpoints
+- order_statuses: Order status management endpoints
 """
 
 from .auth import auth_bp
@@ -13,5 +14,7 @@ from .users import users_bp
 from .products import products_bp
 from .cart import cart_bp
 from .categories import categories_bp
+from .order_statuses import order_statuses_bp
+from .orders import orders_bp
 
-__all__ = ['auth_bp', 'users_bp', 'products_bp', 'cart_bp', 'categories_bp']
+__all__ = ['auth_bp', 'users_bp', 'products_bp', 'cart_bp', 'categories_bp', 'order_statuses_bp', 'orders_bp']
