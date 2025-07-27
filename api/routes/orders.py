@@ -1,13 +1,16 @@
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify, session, g
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
+from decimal import Decimal
 from models.order import Order
 from models.order_product import OrderProduct
 from models.product import Product
+from models.cart import CartItem
 from database import db
 from models.order_status import OrderStatus
 from utils.responses import success_response, error_response
 from utils.validators import validate_required_fields
+from auth.decorators import login_required, admin_required
 
 orders_bp = Blueprint('orders', __name__)
 
@@ -179,10 +182,9 @@ def create_order():
         
         # Clear cart if specified
         if data.get('clear_cart', False):
-            cart = Cart.query.filter_by(user_id=g.current_user.id).first()
-            if cart:
-                CartItem.query.filter_by(cart_id=cart.id).delete()
-                db.session.commit()
+            # Clear all cart items for the user
+            CartItem.query.filter_by(user_id=g.current_user.id).delete()
+            db.session.commit()
         
         return success_response(
             data=order.to_dict(include_products=True),
@@ -269,15 +271,8 @@ def create_order_from_cart():
     try:
         data = request.get_json() or {}
         
-        # Get user's cart
-        cart = Cart.query.filter_by(user_id=g.current_user.id).first()
-        if not cart:
-            return error_response(
-                message="No cart found",
-                status_code=404
-            )
-        
-        cart_items = CartItem.query.filter_by(cart_id=cart.id).all()
+        # Get user's cart items
+        cart_items = CartItem.query.filter_by(user_id=g.current_user.id).all()
         if not cart_items:
             return error_response(
                 message="Cart is empty",

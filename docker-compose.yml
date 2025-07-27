@@ -31,7 +31,7 @@ services:
     container_name: ecommerce_api
     restart: unless-stopped
     ports:
-      - "5000:5000"
+      - "5001:5000"
     environment:
       - FLASK_APP=app.py
       - FLASK_ENV=development
@@ -52,17 +52,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-    command: >
-      sh -c "python -c 'import time; time.sleep(10)' &&
-             flask db upgrade &&
-             python -c '
-      from app import create_app;
-      from models.order_status import OrderStatus;
-      app = create_app();
-      with app.app_context():
-          OrderStatus.create_default_statuses()
-      ' &&
-             python app.py"
+
 
 volumes:
   mysql_data:

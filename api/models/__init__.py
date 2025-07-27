@@ -11,9 +11,9 @@ This package contains all SQLAlchemy models for the application:
 from .category import Category
 from .product import Product
 from .user import User
-from .cart import Cart, CartItem
+from .cart import CartItem
 from .order_status import OrderStatus
 from .order import Order
 from .order_product import OrderProduct
 
-__all__ = ['Category', 'Product', 'User', 'Cart', 'CartItem', 'OrderStatus', 'Order', 'OrderProduct']
+__all__ = ['Category', 'Product', 'User', 'CartItem', 'OrderStatus', 'Order', 'OrderProduct']

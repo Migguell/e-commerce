@@ -27,13 +27,13 @@ def init_database(app):
     """Initialize database with application context."""
     with app.app_context():
         # Import models to ensure tables are created
-        from api.models.category import Category
-        from api.models.product import Product
-        from api.models.cart import Cart, CartItem
-        from api.models.user import User
-        from api.models.order_status import OrderStatus
-        from api.models.order import Order
-        from api.models.order_product import OrderProduct
+        from models.category import Category
+        from models.product import Product
+        from models.cart import CartItem
+        from models.user import User
+        from models.order_status import OrderStatus
+        from models.order import Order
+        from models.order_product import OrderProduct
         
         # Create all tables
         db.create_all()

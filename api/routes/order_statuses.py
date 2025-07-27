@@ -4,6 +4,7 @@ from database import db
 from models.order_status import OrderStatus
 from utils.responses import success_response, error_response
 from utils.validators import validate_required_fields
+from auth.decorators import login_required, admin_required
 
 order_statuses_bp = Blueprint('order_statuses', __name__)
 
