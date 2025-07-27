@@ -27,9 +27,10 @@ def init_database(app):
     """Initialize database with application context."""
     with app.app_context():
         # Import all models to ensure they are registered
-        from models.product import Product, Category
-        from models.cart import CartItem
-        from models.user import User
+        from api.models.category import Category
+        from api.models.product import Product
+        from api.models.cart import CartItem
+        from api.models.user import User
         
         # Create all tables
         db.create_all()

@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
-from models.product import Category
-from database import db
+from api.models.category import Category
+from api.models.product import Product
+from api.database import db
 from utils.responses import success_response, error_response
 from utils.validators import validate_category_data
 from utils.exceptions import ValidationError, NotFoundError
@@ -244,7 +245,7 @@ def get_category_products(category_id):
         
         # Apply sorting
         if sort_by in ['name', 'price', 'created_at', 'stock_quantity']:
-            from models.product import Product
+            # Product is already imported at the top
             sort_column = getattr(Product, sort_by)
             if sort_order.lower() == 'desc':
                 query = query.order_by(sort_column.desc())

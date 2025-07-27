@@ -3,8 +3,10 @@
 import pytest
 from decimal import Decimal
 from sqlalchemy.exc import IntegrityError
-from api.models.product import Product, Category
-from api.models.cart import CartItem
+from api.models.category import Category
+from api.models.product import Product
+from api.models.user import User
+from api.models.cart import Cart, CartItem
 from api.database import db
 
 class TestCategory:

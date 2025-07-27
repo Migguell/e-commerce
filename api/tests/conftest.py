@@ -7,7 +7,8 @@ from decimal import Decimal
 from flask import Flask
 from api.app import create_app
 from api.database import db, init_db
-from api.models.product import Product, Category
+from api.models.category import Category
+from api.models.product import Product
 from api.models.cart import CartItem
 
 @pytest.fixture(scope='session')
