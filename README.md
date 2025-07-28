@@ -29,9 +29,10 @@ docker-compose up -d
 ```
 
 ### Access the Application
-- **API**: http://localhost:5000
-- **Health Check**: http://localhost:5000/health
-- **API Status**: http://localhost:5000/api/status
+- **Frontend**: http://localhost:3000 (React Application)
+- **API**: http://localhost:5001 (Flask Backend)
+- **Health Check**: http://localhost:5001/health
+- **API Status**: http://localhost:5001/api/status
 - **Database**: localhost:3306 (MySQL)
 
 ## 🐳 Docker Commands
@@ -142,6 +143,40 @@ make up
 make logs
 
 # Make code changes - they'll be reflected immediately
+```
+
+### Frontend Development
+The React frontend is containerized and includes:
+
+- **Hot Module Replacement**: Changes reflect immediately
+- **Nginx Proxy**: API calls are proxied to backend
+- **Environment Configuration**: Configurable via .env files
+
+```bash
+# Frontend-specific commands
+docker-compose logs -f frontend    # View frontend logs
+docker-compose exec frontend sh    # Access frontend container
+
+# Local development (alternative)
+cd frontend
+npm install
+npm start                          # Runs on http://localhost:3000
+```
+
+### Frontend Structure
+```
+frontend/
+├── public/                 # Static assets
+├── src/
+│   ├── components/        # React components
+│   ├── context/          # State management
+│   ├── hooks/            # Custom hooks
+│   ├── services/         # API services
+│   ├── utils/            # Utility functions
+│   └── styles/           # CSS files
+├── Dockerfile            # Container configuration
+├── nginx.conf           # Nginx configuration
+└── package.json         # Dependencies
 ```
 
 ### Environment Variables
